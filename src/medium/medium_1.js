@@ -59,8 +59,8 @@ export function getStatistics(array) {
  let sum = getSum(array);
  let mean = sum / length;
  let median = getMedian(array);
- let min = 0;
- let max = 0;
+ let min = Number.MAX_VALUE;
+ let max = Number.MIN_VALUE;
  for (let z = 0; z < length; z++) {
   if (array[z] < min) {
    min = array[z];
@@ -71,7 +71,7 @@ export function getStatistics(array) {
  }
  let vari = variance(array, mean);
  let std = Math.sqrt(variance);
- return [min, median, max, vari, mean, length, sum, std];
+ return [{min: min, median: median, max: max, variance: vari, mean: mean, length: length, sum: sum, standard_deviation: std}];
 
 }
 
