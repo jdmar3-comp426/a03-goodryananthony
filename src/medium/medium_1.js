@@ -69,9 +69,9 @@ export function getStatistics(array) {
    max = array[z];
   }
  }
- let variance = variance(array, mean);
+ let vari = variance(array, mean);
  let std = Math.sqrt(variance);
- return [min, median, max, variance, mean, length, sum, std];
+ return [min, median, max, vari, mean, length, sum, std];
 
 }
 
