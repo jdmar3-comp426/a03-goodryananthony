@@ -1,5 +1,6 @@
 import mpg_data from "./data/mpg_data.js";
 import {getStatistics} from "./medium_1.js";
+import {everyEven} from "../spicy/spicy_9";
 
 /*
 This section can be done by using the array prototype functions.
@@ -20,10 +21,43 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: avgMpg(),
+    allYearStats: allYearStats(),
+    ratioHybrids: ratioHybrids(),
 };
+
+function avgMpg() {
+    let pie = mpg_data;
+
+    let totalMpg = pie.reduce(function(acc, b) {
+        return acc + b.city_mpg + b.highway_mpg;
+    }, 0)
+
+    return totalMpg / mpg_data.length;
+}
+
+function allYearStats() {
+    let pie = mpg_data;
+    let yearArr = [];
+    pie.forEach(function(b)
+        {
+            yearArr.push(b.year)
+        }
+
+    )
+    return getStatistics(yearArr);
+}
+
+function ratioHybrids() {
+    let pie = mpg_data;
+
+    let totalHybrid = pie.reduce(function(acc, b) {
+        return acc + (b.hybrid === true);
+    }, 0)
+
+    return totalHybrid / mpg_data.length;
+}
+
 
 
 /**
@@ -87,3 +121,20 @@ export const moreStats = {
     makerHybrids: undefined,
     avgMpgByYearAndHybrid: undefined
 };
+
+function makerHybrids() {
+    let pie = mpg_data;
+
+    let arrMakers = [];
+    pie.forEach(function(b)
+        {
+            yearArr.push(b.year)
+        }
+    )
+
+}
+
+
+function mpgYearHybrid() {
+
+}
