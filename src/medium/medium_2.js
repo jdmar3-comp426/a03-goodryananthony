@@ -29,11 +29,18 @@ export const allCarStats = {
 function avgMpg() {
     let pie = mpg_data;
 
-    let totalMpg = pie.reduce(function(acc, b) {
-        return acc + b.city_mpg + b.highway_mpg;
+    let totalHighway = pie.reduce(function(acc, b) {
+        return acc +  b.highway_mpg;
     }, 0)
 
-    return totalMpg / mpg_data.length;
+    let totalCity = pie.reduce(function(acc, b) {
+        return acc + b.city_mpg;
+    }, 0)
+
+    return {
+        city: (totalCity / mpg_data.length),
+        highway: (totalHighway / mpg_data.length)
+};
 }
 
 function allYearStats() {
