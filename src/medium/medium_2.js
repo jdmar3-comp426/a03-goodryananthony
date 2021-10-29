@@ -128,10 +128,10 @@ function makerHybrids() {
     let arrMakers = [];
     pie.forEach(function(b)
         {
-            yearArr.push(b.year)
+
         }
     )
-
+ return null;
 }
 
 
