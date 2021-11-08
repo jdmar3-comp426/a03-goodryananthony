@@ -124,7 +124,7 @@ function ratioHybrids() {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
+    makerHybrids: makerHybrids(),
     avgMpgByYearAndHybrid: undefined
 };
 
@@ -133,13 +133,34 @@ export function makerHybrids() {
 
     let arrMakers = [{hybrids: [], make: "GMC",}];
     pie.reduce(function(data, b) {
-        if (b.hybrid === true && data.forEach(inArr)) {
-            console.log("SO TRUE");
+        if (b.hybrid) {
+            if (data.find(element => element.make === b.make) !== undefined) {
+                data.find(element => element.make === b.make).hybrids.push(b.id);
+            } else {
+                data.push({hybrids: [b.id], make: b.make});
+            }
         }
         return data;
     }, arrMakers);
-    console.log(data);
- return null;
+    let newArr = [];
+    for (let i = 0; i < arrMakers.length; i ++) {
+        let q = -Infinity;
+        let ind = 0;
+        for (let j = 0; j < arrMakers.length; j++) {
+          if (arrMakers[j].hybrids.length > q) {
+              q = arrMakers[j].hybrids.length;
+              ind = j;
+          }
+        }
+        newArr.push(arrMakers[ind]);
+        arrMakers.splice(ind, 1);
+        i = i-1;
+    }
+    let len = [];
+    for (let z = 0; z < newArr.length; z++) {
+        len.push(newArr[z].hybrids.length);
+    }
+ return newArr;
 }
 
 
