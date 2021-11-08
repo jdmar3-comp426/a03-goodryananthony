@@ -1,6 +1,5 @@
 import mpg_data from "./data/mpg_data.js";
 import {getStatistics} from "./medium_1.js";
-import {everyEven} from "../spicy/spicy_9";
 
 /*
 This section can be done by using the array prototype functions.
