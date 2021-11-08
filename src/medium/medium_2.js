@@ -129,19 +129,26 @@ export const moreStats = {
     avgMpgByYearAndHybrid: undefined
 };
 
-function makerHybrids() {
+export function makerHybrids() {
     let pie = mpg_data;
 
-    let arrMakers = [];
-    pie.forEach(function(b)
-        {
-
+    let arrMakers = [{hybrids: [], make: "GMC",}];
+    pie.reduce(function(data, b) {
+        if (b.hybrid === true && data.forEach(inArr)) {
+            console.log("SO TRUE");
         }
-    )
+        return data;
+    }, arrMakers);
+    console.log(data);
  return null;
 }
 
 
 function mpgYearHybrid() {
 
+}
+
+
+function inArr(Object, string) {
+    return Object.make === string;
 }
