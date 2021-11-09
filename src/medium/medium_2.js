@@ -169,11 +169,8 @@ function mpgYearHybrid() {
 
     let arrMakers = [];
     pie.reduce(function(data, b) {
-        if (data.find(element => element[b.year] != null) === undefined) {
-            let newt = {};
-
-            newt[b.year] = {};
-            arrMakers.push(newt);
+        if (data.find(element => element == b.year) === undefined) {
+            arrMakers.push(b.year);
         }
         return data;
     }, arrMakers);
@@ -205,8 +202,10 @@ function mpgYearHybrid() {
         }, normMpg);
         normMpg.city = normMpg.city / hybridNo.length;
         normMpg.highway = normMpg.highway / hybridNo.length;
-        let year = parseInt(Object.keys(arrMakers[0])[z]);
-        arrMakers[0][year] = {hybrid: hybridMpg, notHybrid: normMpg};
+        let year = arrMakers[z];
+        let obj = {};
+        obj[year] = {hybrid: hybridMpg, notHybrid: normMpg};
+        arrMakers[z] = obj;
     }
     return arrMakers;
 }
