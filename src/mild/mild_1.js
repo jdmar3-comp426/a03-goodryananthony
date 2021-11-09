@@ -43,7 +43,7 @@ export function maxAndMin(numbers) {
    let min1 = Math.min(...numbers);
 
 
-   return {min: min1, max: max1};
+   return {max: max1, min: min1};
 }
 
 /**
@@ -57,5 +57,22 @@ export function maxAndMin(numbers) {
  *
  */
 export function countArray(array) {
+   let arrKeys = [];
+   array.reduce(function(data, b) {
+      if (arrKeys.find(element => element === b) === undefined) {
+         arrKeys.push(b);
+      }
+   }, arrKeys);
+   let final = {};
+   for (let i = 0; i < arrKeys.length; i++) {
+      final[arrKeys[i]] = array.reduce(function(a, b) {
+         if (b === arrKeys[i]) {
+            return a + 1;
+         } else {
+            return a;
+         }
+      }, 0);
+   }
 
+   return final;
 }
