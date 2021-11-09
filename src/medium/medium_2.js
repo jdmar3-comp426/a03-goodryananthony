@@ -205,8 +205,6 @@ function mpgYearHybrid() {
         normMpg.highway = normMpg.highway / hybridNo.length;
         let year = arrMakers[z];
         let obj = {};
-        console.log(hybridMpg);
-        console.log(normMpg);
         obj[year] = {hybrid: hybridMpg, notHybrid: normMpg};
         objectArr[z] = obj;
     }

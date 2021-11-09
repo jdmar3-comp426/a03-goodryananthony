@@ -8,7 +8,7 @@ import {allCarStats, makerHybrids, moreStats} from "./medium/medium_2";
 let people = [4, 2, 100, 200, 3, 1, 5];
 
 
-console.log(moreStats);
+console.log(allCarStats);
 
 
 
