@@ -168,6 +168,7 @@ function mpgYearHybrid() {
   let pie = mpg_data;
 
     let arrMakers = [];
+    let objectArr = [];
     pie.reduce(function(data, b) {
         if (data.find(element => element == b.year) === undefined) {
             arrMakers.push(b.year);
@@ -175,7 +176,7 @@ function mpgYearHybrid() {
         return data;
     }, arrMakers);
     for (let z = 0; z < arrMakers.length; z++) {
-        let re = pie.filter(element => element.year === parseInt(Object.keys(arrMakers[0])[z]));
+        let re = pie.filter(element => element.year === arrMakers[z]);
         let hybridMpg = {city: 0, highway: 0};
         let hybridYes = re.filter(element => element.hybrid === true);
         hybridMpg = hybridYes.reduce(function (data, b) {
@@ -204,10 +205,14 @@ function mpgYearHybrid() {
         normMpg.highway = normMpg.highway / hybridNo.length;
         let year = arrMakers[z];
         let obj = {};
+        console.log(hybridMpg);
+        console.log(normMpg);
         obj[year] = {hybrid: hybridMpg, notHybrid: normMpg};
-        arrMakers[z] = obj;
+        objectArr[z] = obj;
     }
-    return arrMakers;
+
+    let  retOb = Object.assign({}, ...objectArr);
+    return retOb;
 }
 
 

@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "",
   "main": "src/test.js",
-  "type": "module",
+ "type": "module",
   "module": "src/main.js",
   "scripts": {
     "mild_1": "node src/mild/mild_1.js",
