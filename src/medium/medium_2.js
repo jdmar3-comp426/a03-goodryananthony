@@ -125,7 +125,7 @@ function ratioHybrids() {
  */
 export const moreStats = {
     makerHybrids: makerHybrids(),
-    avgMpgByYearAndHybrid: undefined
+    avgMpgByYearAndHybrid: mpgYearHybrid(),
 };
 
 export function makerHybrids() {
@@ -165,10 +165,50 @@ export function makerHybrids() {
 
 
 function mpgYearHybrid() {
+  let pie = mpg_data;
 
+    let arrMakers = [];
+    pie.reduce(function(data, b) {
+        if (data.find(element => element[b.year] != null) === undefined) {
+            let newt = {};
+
+            newt[b.year] = {};
+            arrMakers.push(newt);
+        }
+        return data;
+    }, arrMakers);
+    for (let z = 0; z < arrMakers.length; z++) {
+        let re = pie.filter(element => element.year === parseInt(Object.keys(arrMakers[0])[z]));
+        let hybridMpg = {city: 0, highway: 0};
+        let hybridYes = re.filter(element => element.hybrid === true);
+        hybridMpg = hybridYes.reduce(function (data, b) {
+            let left = data.city + b.city_mpg;
+            let right = data.highway + b.highway_mpg;
+            let newer = {};
+            newer['city'] = left;
+            newer['highway'] = right;
+
+            return newer;
+        }, hybridMpg);
+        hybridMpg.city = hybridMpg.city / hybridYes.length;
+        hybridMpg.highway = hybridMpg.highway / hybridYes.length;
+        let hybridNo = re.filter(element => element.hybrid === false);
+        let normMpg = {city: 0, highway: 0};
+        normMpg = hybridNo.reduce(function (data, b) {
+            let left = data.city + b.city_mpg;
+            let right = data.highway + b.highway_mpg;
+            let newer = {};
+            newer['city'] = left;
+            newer['highway'] = right;
+
+            return newer;
+        }, normMpg);
+        normMpg.city = normMpg.city / hybridNo.length;
+        normMpg.highway = normMpg.highway / hybridNo.length;
+        let year = parseInt(Object.keys(arrMakers[0])[z]);
+        arrMakers[0][year] = {hybrid: hybridMpg, notHybrid: normMpg};
+    }
+    return arrMakers;
 }
 
 
-function inArr(Object, string) {
-    return Object.make === string;
-}
