@@ -18,6 +18,22 @@ queries.
  *
  */
 export function searchHighPower(car_data, minHorsepower, minTorque) {
+    let arrCar = car_data.filter(element => element.horsepower >= minHorsepower && element.torque >= minTorque);
+    let sortArr = [];
+    for (let i = 0; i < arrCar.length; i++) {
+        let q = -Infinity;
+        let ind = 0;
+        for (let j = 0; j < arrCar.length; j++) {
+            if (arrCar[j].horsepower > q) {
+                q = arrCar[j].horsepower;
+                ind = j;
+            }
+        }
+        sortArr.push(arrCar[ind]);
+        arrCar.splice(ind, 1);
+        i = i - 1;
+    }
+    return sortArr;
 
 }
 
@@ -33,6 +49,22 @@ export function searchHighPower(car_data, minHorsepower, minTorque) {
  *
  */
 export function searchMpg(car_data, minCity, minHighway) {
+    let arrCar = car_data.filter(element => element.city_mpg >= minCity && element.highway_mpg >= minHighway);
+    let sortArr = [];
+    for (let i = 0; i < arrCar.length; i++) {
+        let q = -Infinity;
+        let ind = 0;
+        for (let j = 0; j < arrCar.length; j++) {
+            if (arrCar[j].highway_mpg > q) {
+                q = arrCar[j].highway_mpg;
+                ind = j;
+            }
+        }
+        sortArr.push(arrCar[ind]);
+        arrCar.splice(ind, 1);
+        i = i - 1;
+    }
+    return sortArr;
 
 }
 
@@ -46,7 +78,22 @@ export function searchMpg(car_data, minCity, minHighway) {
  * @returns {[]} array of cars
  */
 export function searchName(car_data, searchTerm) {
+    let arrCar = car_data.filter(element => element.id.toLowerCase().includes(searchTerm.toLowerCase()));
 
+    let sortArr = [];
+    for (let i = 0; i < arrCar.length; i++) {
+        let q = Infinity;
+        let ind = 0;
+        for (let j = 0; j < arrCar.length; j++) {
+            if (arrCar[j].id.toLowerCase().indexOf(searchTerm.toLowerCase()) < q) {
+                q = j;
+            }
+        }
+        sortArr.push(arrCar[ind]);
+        arrCar.splice(ind, 1);
+        i = i - 1;
+    }
+    return sortArr;
 }
 
 
@@ -59,5 +106,24 @@ export function searchName(car_data, searchTerm) {
  * @returns {[]} an array of car objects
  */
 export function searchByYear(car_data, years) {
-
+    let final = [];
+    let sortYear = [];
+    for (let i = 0; i < years.length; i++) {
+        let q = -Infinity;
+        let ind = 0;
+        for (let j = 0; j < years.length; j++) {
+            if (years[j] > q) {
+                q = years[j];
+                ind = j;
+            }
+        }
+        sortYear.push(years[ind]);
+        years.splice(ind, 1);
+        i = i - 1;
+    }
+    for (const element of sortYear) {
+        let nice = car_data.filter(elem => elem.year === element);
+        final.push(nice);
+    }
+    return final;
 }
