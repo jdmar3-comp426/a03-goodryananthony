@@ -20,10 +20,50 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: avgMpg(),
+    allYearStats: allYearStats(),
+    ratioHybrids: ratioHybrids(),
 };
+
+function avgMpg() {
+    let pie = mpg_data;
+
+    let totalHighway = pie.reduce(function(acc, b) {
+        return acc +  b.highway_mpg;
+    }, 0)
+
+    let totalCity = pie.reduce(function(acc, b) {
+        return acc + b.city_mpg;
+    }, 0)
+
+    return {
+        city: (totalCity / mpg_data.length),
+        highway: (totalHighway / mpg_data.length)
+};
+}
+
+function allYearStats() {
+    let pie = mpg_data;
+    let yearArr = [];
+    pie.forEach(function(b)
+        {
+            yearArr.push(b.year)
+        }
+
+    )
+    return getStatistics(yearArr);
+}
+
+function ratioHybrids() {
+    let pie = mpg_data;
+
+    let totalHybrid = pie.reduce(function(acc, b) {
+        return acc + (b.hybrid === true);
+    }, 0)
+
+    return totalHybrid / mpg_data.length;
+}
+
 
 
 /**
@@ -84,6 +124,93 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
-    avgMpgByYearAndHybrid: undefined
+    makerHybrids: makerHybrids(),
+    avgMpgByYearAndHybrid: mpgYearHybrid(),
 };
+
+export function makerHybrids() {
+    let pie = mpg_data;
+
+    let arrMakers = [{hybrids: [], make: "GMC",}];
+    pie.reduce(function(data, b) {
+        if (b.hybrid) {
+            if (data.find(element => element.make === b.make) !== undefined) {
+                data.find(element => element.make === b.make).hybrids.push(b.id);
+            } else {
+                data.push({hybrids: [b.id], make: b.make});
+            }
+        }
+        return data;
+    }, arrMakers);
+    let newArr = [];
+    for (let i = 0; i < arrMakers.length; i ++) {
+        let q = -Infinity;
+        let ind = 0;
+        for (let j = 0; j < arrMakers.length; j++) {
+          if (arrMakers[j].hybrids.length > q) {
+              q = arrMakers[j].hybrids.length;
+              ind = j;
+          }
+        }
+        newArr.push(arrMakers[ind]);
+        arrMakers.splice(ind, 1);
+        i = i-1;
+    }
+    let len = [];
+    for (let z = 0; z < newArr.length; z++) {
+        len.push(newArr[z].hybrids.length);
+    }
+ return newArr;
+}
+
+
+function mpgYearHybrid() {
+  let pie = mpg_data;
+
+    let arrMakers = [];
+    let objectArr = [];
+    pie.reduce(function(data, b) {
+        if (data.find(element => element == b.year) === undefined) {
+            arrMakers.push(b.year);
+        }
+        return data;
+    }, arrMakers);
+    for (let z = 0; z < arrMakers.length; z++) {
+        let re = pie.filter(element => element.year === arrMakers[z]);
+        let hybridMpg = {city: 0, highway: 0};
+        let hybridYes = re.filter(element => element.hybrid === true);
+        hybridMpg = hybridYes.reduce(function (data, b) {
+            let left = data.city + b.city_mpg;
+            let right = data.highway + b.highway_mpg;
+            let newer = {};
+            newer['city'] = left;
+            newer['highway'] = right;
+
+            return newer;
+        }, hybridMpg);
+        hybridMpg.city = hybridMpg.city / hybridYes.length;
+        hybridMpg.highway = hybridMpg.highway / hybridYes.length;
+        let hybridNo = re.filter(element => element.hybrid === false);
+        let normMpg = {city: 0, highway: 0};
+        normMpg = hybridNo.reduce(function (data, b) {
+            let left = data.city + b.city_mpg;
+            let right = data.highway + b.highway_mpg;
+            let newer = {};
+            newer['city'] = left;
+            newer['highway'] = right;
+
+            return newer;
+        }, normMpg);
+        normMpg.city = normMpg.city / hybridNo.length;
+        normMpg.highway = normMpg.highway / hybridNo.length;
+        let year = arrMakers[z];
+        let obj = {};
+        obj[year] = {hybrid: hybridMpg, notHybrid: normMpg};
+        objectArr[z] = obj;
+    }
+
+    let  retOb = Object.assign({}, ...objectArr);
+    return retOb;
+}
+
+
